@@ -181,7 +181,12 @@ class GroundUDPBridge:
             # ==================================================================
             return
 
-        if text == "CMD:START_TASK2":  # 启动任务 2：定向盘点
+        if text == "CMD:START_TASK2" or text.startswith("CMD:START_TASK2:"):  # 启动任务 2：定向盘点
+            if text.startswith("CMD:START_TASK2:"):
+                target_id = text[len("CMD:START_TASK2:"):].strip()
+                if not target_id:
+                    self.send_udp("REPLY:UNKNOWN_CMD")
+                    return
             self.task1_running = False
             self.task2_running = True
 
